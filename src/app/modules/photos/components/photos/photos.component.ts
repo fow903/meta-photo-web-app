@@ -3,6 +3,8 @@ import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { PhotosService } from '../../services/photos.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { LoadingService } from '../../../../services/loading-service';
+import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'app-photos',
@@ -15,18 +17,24 @@ export class PhotosComponent implements OnInit {
   totalPhotos = 0;
   pageSize = 10;
   pageIndex = 0;
-  photoLoadStates: { [key: number]: { loaded: boolean; failed: boolean } } = {};
+  photoLoadStates: { [key: number]: { loaded: boolean; failed: boolean } | undefined } = {};
   backendLoadFailed = false;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
-  constructor(private photosService: PhotosService, private snackBar: MatSnackBar) {}
+  constructor(
+    private photosService: PhotosService,
+    private snackBar: MatSnackBar,
+    private loadingService: LoadingService
+  ) {
+  }
 
   ngOnInit(): void {
     this.loadPhotos();
   }
 
   loadPhotos(): void {
+    this.loadingService.show();
     this.backendLoadFailed = false;
     const offset = this.pageIndex * this.pageSize;
     this.photosService.getPhotos(this.pageSize, offset).subscribe({
@@ -41,6 +49,9 @@ export class PhotosComponent implements OnInit {
         }).onAction().subscribe(() => {
           this.loadPhotos();
         });
+      },
+      complete: () => {
+        this.loadingService.hide();
       }
     });
   }

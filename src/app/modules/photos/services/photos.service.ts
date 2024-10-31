@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from '../../../../enviroments/enviroment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PhotosService {
-  private readonly apiUrl = 'http://localhost:3000/externalapi/photos';
+  private readonly apiUrl = environment.apiUrl;
 
   constructor(private http: HttpClient) {}
 
@@ -15,7 +16,6 @@ export class PhotosService {
       .set('limit', limit)
       .set('offset', offset);
 
-    // Append filters to the params if provided
     Object.keys(filters).forEach(key => {
       params = params.set(key, filters[key]);
     });

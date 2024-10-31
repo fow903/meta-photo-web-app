@@ -33,7 +33,7 @@
               <div
                 *ngIf="!photoLoadStates[photo.id]?.loaded"
                 class="skeleton-loader"
-                [ngClass]="{ 'loading-animation': !photoLoadStates[photo.id].failed }"
+                [ngClass]="{ 'loading-animation': !photoLoadStates[photo.id]?.failed }"
                 style="width: 150px; height: 150px;">
                 <span *ngIf="photoLoadStates[photo.id]?.failed" class="error-text">
                   Failed to load
@@ -45,7 +45,7 @@
                 class="photo-thumbnail"
                 (load)="onPhotoLoad(photo.id)"
                 (error)="onPhotoError(photo.id)"
-                [ngClass]="{ 'hidden': !photoLoadStates[photo.id].loaded || photoLoadStates[photo.id].failed }">
+                [ngClass]="{ 'hidden': !photoLoadStates[photo.id]?.loaded || photoLoadStates[photo.id]?.failed }">
             </div>
           </td>
         </ng-container>

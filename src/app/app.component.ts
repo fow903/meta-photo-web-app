@@ -1,6 +1,7 @@
 import { Component, Renderer2 } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { ThemeService } from './services/theme-service';
+import { LoadingService } from './services/loading-service';
 
 @Component({
   selector: 'app-root',
@@ -10,5 +11,5 @@ import { ThemeService } from './services/theme-service';
 export class AppComponent {
   title = 'meta-photo-ui';
 
-  constructor(private themeService: ThemeService) {}
+  constructor() {}
 }
