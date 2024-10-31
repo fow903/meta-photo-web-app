@@ -1,0 +1,30 @@
+@use '@angular/material' as mat;
+
+// Include core styles only once
+@include mat.core();
+
+// Define a dark theme
+$dark-theme: mat.define-theme((
+  color: (
+    theme-type: dark,
+    primary: mat.$violet-palette,
+  ),
+));
+
+// Define a light theme
+$light-theme: mat.define-theme((
+  color: (
+    theme-type: light,
+    primary: mat.$violet-palette,
+  ),
+));
+
+html {
+  // Apply only color styles for the dark theme
+  @include mat.all-component-colors($dark-theme);
+
+  // Apply only color styles for the light theme when the user prefers a light color scheme
+  @media (prefers-color-scheme: light) {
+    @include mat.all-component-colors($light-theme);
+  }
+}
