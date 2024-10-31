@@ -4,7 +4,6 @@ import { MatTableDataSource } from '@angular/material/table';
 import { PhotosService } from '../../services/photos.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { LoadingService } from '../../../../services/loading-service';
-import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'app-photos',
