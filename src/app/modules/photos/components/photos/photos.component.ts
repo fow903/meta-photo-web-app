@@ -42,6 +42,7 @@ export class PhotosComponent implements OnInit {
         this.totalPhotos = 5000;
       },
       error: () => {
+        this.loadingService.hide();
         this.backendLoadFailed = true;
         this.snackBar.open('Failed to load photos. Please try again.', 'Retry', {
           duration: 5000
