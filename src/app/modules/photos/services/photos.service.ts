@@ -1,15 +1,22 @@
-import { Injectable } from '@angular/core';
+import { Injectable, isDevMode } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { environment } from '../../../../enviroments/enviroment';
+import { environment as ProdEnviroment } from '../../../../environments/environment.prod';
+import { environment as DevEnviroment } from '../../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PhotosService {
-  private readonly apiUrl = environment.apiUrl;
+  private apiUrl;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) {
+    if (isDevMode()) {
+      this.apiUrl = DevEnviroment.apiUrl;
+    } else {
+      this.apiUrl = ProdEnviroment.apiUrl;
+    }
+  }
 
   getPhotos(limit: number, offset: number, filters: any = {}): Observable<any> {
     let params = new HttpParams()
@@ -20,6 +27,6 @@ export class PhotosService {
       params = params.set(key, filters[key]);
     });
 
-    return this.http.get<any>(this.apiUrl, { params });
+    return this.http.get<any>(`${this.apiUrl}/externalapi/photos`, { params });
   }
 }
