@@ -1,32 +1,36 @@
-# Stage 1: Build the Angular app
+# Stage 1: Build the Angular app for SSR
 FROM node:18 AS build
 
 WORKDIR /app
 
-COPY package*.json ./
+# Copy package.json and yarn.lock
+COPY package.json yarn.lock ./
 
-# Install dependencies
-RUN npm install
+# Install dependencies using Yarn
+RUN yarn install --legacy-peer-deps
 
 # Copy the rest of the application code
 COPY . .
 
-# Build the Angular app
-RUN npm run build --prod
+# Build the Angular app for SSR
+RUN yarn build:ssr
 
-# Stage 2: Serve the app using Node.js
+# Stage 2: Create the production image
 FROM node:18
 
 WORKDIR /app
 
-# Copy the build output
-COPY --from=build /app/dist/meta-photo-ui ./dist
+# Copy the entire dist output to the production image
+COPY --from=build /app/dist ./dist
 
-# Install a simple HTTP server to serve the application
-RUN npm install -g http-server
+# Copy yarn.lock and package.json for production dependencies
+COPY package.json yarn.lock ./
 
-# Expose port 8080
-EXPOSE 8080
+# Install production dependencies using Yarn
+RUN yarn install --production --legacy-peer-deps
 
-# Start the HTTP server and serve from the `dist` folder
-CMD ["http-server", "dist", "-p", "8080"]
+# Expose the port on which your SSR app will run
+EXPOSE 4000
+
+# Command to run the server
+CMD ["node", "dist/meta-photo-ui/server/main.js"]
