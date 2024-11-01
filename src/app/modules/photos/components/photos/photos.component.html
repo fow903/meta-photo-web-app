@@ -7,17 +7,17 @@
 
       <mat-form-field appearance="fill">
         <mat-label>Filter by Title</mat-label>
-        <input matInput [(ngModel)]="filters.title" (input)="applyFilters()" placeholder="Filter by Title">
+        <input matInput [(ngModel)]="filters.title" (input)="debouncedApplyFilters()" placeholder="Filter by Title">
       </mat-form-field>
 
       <mat-form-field appearance="fill">
         <mat-label>Filter by Album Title</mat-label>
-        <input matInput [(ngModel)]="filters.albumTitle" (input)="applyFilters()" placeholder="Filter by Album Title">
+        <input matInput [(ngModel)]="filters.albumTitle" (input)="debouncedApplyFilters()" placeholder="Filter by Album Title">
       </mat-form-field>
 
       <mat-form-field appearance="fill">
         <mat-label>Filter by User Email</mat-label>
-        <input matInput [(ngModel)]="filters.userEmail" (input)="applyFilters()" placeholder="Filter by User Email">
+        <input matInput [(ngModel)]="filters.userEmail" (input)="debouncedApplyFilters()" placeholder="Filter by User Email">
       </mat-form-field>
 
     </div>

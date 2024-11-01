@@ -4,7 +4,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { PhotosService } from '../../services/photos.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { LoadingService } from '../../../../services/loading-service';
-
+import { debounce } from '../../helpers/debounce';
 @Component({
   selector: 'app-photos',
   templateUrl: './photos.component.html',
@@ -18,6 +18,7 @@ export class PhotosComponent implements OnInit {
   pageIndex = 0;
   photoLoadStates: { [key: number]: { loaded: boolean; failed: boolean } | undefined } = {};
   backendLoadFailed = false;
+  debouncedApplyFilters!: Function;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
@@ -32,6 +33,13 @@ export class PhotosComponent implements OnInit {
     private snackBar: MatSnackBar,
     private loadingService: LoadingService
   ) {
+    this.debouncedApplyFilters = debounce(() => {
+      this.applyFilters();
+    }, 300);
+  }
+
+  resetPagination(): void {
+    this.paginator.firstPage();
   }
 
   ngOnInit(): void {
@@ -40,6 +48,7 @@ export class PhotosComponent implements OnInit {
 
   applyFilters(): void {
     this.loadPhotos();
+    this.resetPagination();
   }
 
   mapFilters(filters: any) {
