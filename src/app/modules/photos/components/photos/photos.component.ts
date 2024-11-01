@@ -56,8 +56,8 @@ export class PhotosComponent implements OnInit {
     const offset = this.pageIndex * this.pageSize;
     this.photosService.getPhotos(this.pageSize, offset, this.mapFilters(this.filters)).subscribe({
       next: (response) => {
-        this.dataSource.data = response;
-        this.totalPhotos = 5000;
+        this.dataSource.data = response.data;
+        this.totalPhotos = response.count;
       },
       error: () => {
         this.loadingService.hide();

@@ -7,6 +7,7 @@ import { ThemeService } from './services/theme-service';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatSidenavModule } from '@angular/material/sidenav';
 import { LoadingOverlayComponent } from './components/loading-overlay.component';
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
@@ -19,6 +20,7 @@ import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http'
     MatButtonToggleModule,
     MatProgressSpinnerModule,
     MatProgressBarModule,
+    MatSidenavModule,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   bootstrap: [AppComponent],

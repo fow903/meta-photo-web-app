@@ -29,7 +29,7 @@ export class PhotosService {
     const acceptedFilters = ['title', 'album.title', 'album.user.email'];
 
     Object.keys(filters).forEach(key => {
-      if (acceptedFilters.includes(key)) {
+      if (acceptedFilters.includes(key) && filters[key]) {
         params = params.set(key, filters[key]);
       }
     });
