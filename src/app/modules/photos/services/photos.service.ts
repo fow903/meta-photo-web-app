@@ -26,6 +26,13 @@ export class PhotosService {
     Object.keys(filters).forEach(key => {
       params = params.set(key, filters[key]);
     });
+    const acceptedFilters = ['title', 'album.title', 'album.user.email'];
+
+    Object.keys(filters).forEach(key => {
+      if (acceptedFilters.includes(key)) {
+        params = params.set(key, filters[key]);
+      }
+    });
 
     return this.http.get<any>(`${this.apiUrl}/externalapi/photos`, { params });
   }

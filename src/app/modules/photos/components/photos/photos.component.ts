@@ -21,6 +21,12 @@ export class PhotosComponent implements OnInit {
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
+  filters = {
+    title: '',
+    albumTitle: '',
+    userEmail: ''
+  };
+
   constructor(
     private photosService: PhotosService,
     private snackBar: MatSnackBar,
@@ -32,11 +38,23 @@ export class PhotosComponent implements OnInit {
     this.loadPhotos();
   }
 
+  applyFilters(): void {
+    this.loadPhotos();
+  }
+
+  mapFilters(filters: any) {
+    return {
+      title: filters.title || '',
+      "album.title": filters.albumTitle || '',
+      "album.user.email": filters.userEmail || ''
+    }
+  }
+
   loadPhotos(): void {
     this.loadingService.show();
     this.backendLoadFailed = false;
     const offset = this.pageIndex * this.pageSize;
-    this.photosService.getPhotos(this.pageSize, offset).subscribe({
+    this.photosService.getPhotos(this.pageSize, offset, this.mapFilters(this.filters)).subscribe({
       next: (response) => {
         this.dataSource.data = response;
         this.totalPhotos = 5000;

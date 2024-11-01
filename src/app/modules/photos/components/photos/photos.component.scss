@@ -70,3 +70,10 @@ mat-paginator {
 .hidden {
   display: none;
 }
+
+
+.filter-container {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
