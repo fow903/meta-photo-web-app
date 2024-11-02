@@ -9,7 +9,6 @@ import { LoadingService } from './services/loading-service';
   styleUrl: './app.component.scss'
 })
 export class AppComponent {
-  title = 'meta-photo-ui';
 
   constructor() {}
 }
