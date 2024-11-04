@@ -5,6 +5,8 @@ import { PhotosService } from '../../services/photos.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { LoadingService } from '../../../../services/loading-service';
 import { debounce } from '../../helpers/debounce';
+import { Filters, MappedFilters } from '../../interfaces/filters';
+import { ApiResponse, Photo } from '../../interfaces/api-response';
 @Component({
   selector: 'app-photos',
   templateUrl: './photos.component.html',
@@ -12,7 +14,7 @@ import { debounce } from '../../helpers/debounce';
 })
 export class PhotosComponent implements OnInit {
   displayedColumns: string[] = ['id', 'title', 'albumTitle', 'userEmail', 'photo'];
-  dataSource = new MatTableDataSource<any>([]);
+  dataSource = new MatTableDataSource<Photo>([]);
   totalPhotos = 0;
   pageSize = 10;
   pageIndex = 0;
@@ -51,9 +53,9 @@ export class PhotosComponent implements OnInit {
     this.resetPagination();
   }
 
-  mapFilters(filters: any) {
+  mapFilters(filters: Filters): MappedFilters {
     return {
-      title: filters.title || '',
+      "title": filters.title || '',
       "album.title": filters.albumTitle || '',
       "album.user.email": filters.userEmail || ''
     }
@@ -64,7 +66,7 @@ export class PhotosComponent implements OnInit {
     this.backendLoadFailed = false;
     const offset = this.pageIndex * this.pageSize;
     this.photosService.getPhotos(this.pageSize, offset, this.mapFilters(this.filters)).subscribe({
-      next: (response) => {
+      next: (response: ApiResponse) => {
         this.dataSource.data = response.data;
         this.totalPhotos = response.count;
       },
